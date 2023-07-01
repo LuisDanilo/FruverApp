@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  # Servicio de Docker que corre una imágen de postgresql
+  # Crea una base de datos "fruverdb" y al usuario "admin" con contraseña "Admin123"
+  # Expone el puerto 5432 del contedor hacia el puerto 5432 del host
+  db:
+      container_name: postgres
+      image: postgres:latest
+      environment:
+        - POSTGRES_DB=fruverdb
+        - POSTGRES_USER=admin
+        - POSTGRES_PASSWORD=Admin123
+      ports:
+        - "5432:5432"
+
+  api:
+    container_name: backend
+    image: node:18.16
+    working_dir: /app
+    environment:
+      MYSQL_DATABASE: fruverdb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Admin123
+    ports:
+      - "3000:3000"
+    command: node -v
+
+  app:
+    container_name: frontend
+    ports:
+      - "80:80"
+    build: .
