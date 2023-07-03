@@ -6,17 +6,16 @@ services:
   # Expone el puerto 5432 del contedor hacia el puerto 5432 del host
   db:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:14.2
     environment:
       - POSTGRES_DB=fruverdb
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=Admin123
     ports:
       - "5432:5432"
-    # volumes:
-    #   - ./db/pgdata:/var/lib/postgresql/data
-    #   - ./db/init.sql:/docker-entrypoint-initdb.d/data.sql
-
+    volumes:
+      - ./db/pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/data.sql
   # api:
   #   depends_on:
   #     - db
