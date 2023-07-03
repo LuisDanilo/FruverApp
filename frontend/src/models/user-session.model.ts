@@ -7,6 +7,7 @@ export class Credentials {
 
 export class UserSession {
     constructor(
-        public sessionId: string
+        public sessionId: string,
+        public roleId: string
     ) { }
 }

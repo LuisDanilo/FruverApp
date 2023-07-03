@@ -1,2 +1,78 @@
-<p>products works!</p>
-<app-logout-button></app-logout-button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">
+            <h1>Administración</h1>
+        </div>
+        <div class="col-md-1 offset-md-10">
+            <app-logout-button></app-logout-button>
+        </div>
+    </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <button class="btn btn-link nav-link" [class.active]="panel == 'products'" data-toggle="tab"
+                (click)="setPanel('products')">Productos</button>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="panel == 'orders'" data-toggle="tab"
+                (click)="setPanel('orders')">Órdenes</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="category1" class="tab-pane fade" [class.show]="panel == 'orders'" [class.active]="panel == 'orders'"
+            *ngIf="panel === 'orders'">
+            <!-- <h4>Productos</h4> -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Detail</th>
+                        <th>Price</th>
+                        <th>Available Units</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Product 1</td>
+                        <td>Product 1 Detail</td>
+                        <td>$10</td>
+                        <td>100</td>
+                        <td>
+                            <button class="btn btn-primary">Edit</button>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <!-- Add more rows for Category 1 products as needed -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="category2" class="tab-pane fade" [class.show]="panel == 'products'"
+            [class.active]="panel == 'products'" *ngIf="panel === 'products'">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Detalle</th>
+                        <th>Precio</th>
+                        <th>Unidades disponibles</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products | async">
+                        <td>{{product.name}}</td>
+                        <td>{{product.detail}}</td>
+                        <td>$ {{product.price}}</td>
+                        <td>{{product.available_units}} unds</td>
+                        <td>
+                            <button class="btn btn-primary m-1">Editar</button>
+                            <button class="btn btn-danger m-1">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

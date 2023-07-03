@@ -23,7 +23,7 @@ export const getProducts = async (req, res) => {
                 [Op.and]: [
                     (minPrice ? { price: { [Op.gte]: minPrice } } : {}), // Existe parámetro min? Filtre productos por limite inferior
                     (maxPrice ? { price: { [Op.lte]: maxPrice } } : {}), // Existe parámetro max? Filtre productos por limite superior
-                    { available_units: { [Op.gt]: 68 } } // Filtre productos con unidades disponibles
+                    { available_units: { [Op.gt]: 0 } } // Filtre productos con unidades disponibles
                 ]
             }
         }

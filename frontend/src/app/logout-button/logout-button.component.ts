@@ -8,11 +8,11 @@ import { LoginService } from '../login.service';
   styleUrls: ['./logout-button.component.sass']
 })
 export class LogoutButtonComponent implements OnInit {
-
+  username: string = ""
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.username = localStorage.getItem('username') || ""
   }
 
   performLogout() {

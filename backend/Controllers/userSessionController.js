@@ -23,7 +23,7 @@ export const performLogin = async (req, res) => {
         const newSession = await UserSession.create({
             user_id: user.id, status: 'ACTIVE'
         })
-        res.status(200).json({ data: { sessionId: `${newSession.id}`, roleId: `${user.role_id}` } })
+        res.status(200).json({ sessionId: `${newSession.id}`, roleId: `${user.role_id}`, username: user.username })
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: `${err}` })

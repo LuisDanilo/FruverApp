@@ -30,23 +30,23 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const response = this.loginService
+    this.loginService
       .performLogin(this.credentials)
       .subscribe(data => {
-        const sessionId = get(data, 'data.sessionId', null)
-        const roleId = get(data, 'data.roleId', null)
+        const sessionId = get(data, 'sessionId', null)
+        const roleId = get(data, 'roleId', null)
+        const username = get(data, 'username', '')
         if (sessionId) {
           if (roleId === UserRoles.ADMIN) {
             localStorage.setItem('sessionId', sessionId)
             localStorage.setItem('roleId', roleId)
-            this.router.navigate(['/products'])//.then(() => window.location.reload())
+            localStorage.setItem('username', username)
+            this.router.navigate(['/products'])
           } else if (roleId === UserRoles.USER) {
             localStorage.setItem('sessionId', sessionId)
             localStorage.setItem('roleId', roleId)
-            this.router.navigate(['/shop'])//.then(() => window.location.reload())
-          } else {
-            console.log(roleId)
-            console.log("No role")
+            localStorage.setItem('username', username)
+            this.router.navigate(['/shop'])
           }
         }
       })
