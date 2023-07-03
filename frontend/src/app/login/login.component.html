@@ -1,0 +1,29 @@
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-4 offset-md-4">
+            <form class="border rounded shadow p-4" (ngSubmit)="login()" #loginForm="ngForm">
+                <div class="d-grid mb-4">
+                    <img src="assets/" alt="Logo">
+                </div>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form2Example1" class="form-control" required
+                        [(ngModel)]="credentials.username" />
+                    <label class="form-label" for="form2Example1">Tu nombre de usuario</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input type="password" id="form2Example2" class="form-control" required
+                        [(ngModel)]="credentials.password" />
+                    <label class="form-label" for="form2Example2">Tu constraseña</label>
+                </div>
+
+                <!-- Submit button -->
+                <div class="d-grid">
+                    <button type="button" class="btn btn-primary btn-block mb-4" type="submit">Ingresar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
