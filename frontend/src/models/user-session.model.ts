@@ -1,5 +1,12 @@
+export class Credentials {
+    constructor(
+        public username: string,
+        public password: string
+    ) { }
+}
+
 export class UserSession {
     constructor(
-        public id: string
+        public sessionId: string
     ) { }
 }

@@ -11,7 +11,6 @@ import { roleRouter } from './Routes/roleRoutes.js'
 import { userSessionRouter } from './Routes/userSessionRoutes.js'
 import { User } from './Models/user.js'
 import { Role } from './Models/role.js'
-import { UserRole } from './Models/userRole.js'
 import { UserSession } from './Models/userSession.js'
 import { ProductCatalog } from './Models/productCatalog.js'
 import { Catalog } from './Models/catalog.js'
@@ -39,11 +38,9 @@ app.use(userSessionRouter)
  * Se realiza antes de poner el servidor en funcionamiento
  */
 const initRelations = () => {
-  // User roles M:N
-  User.hasMany(UserRole, { foreignKey: 'user_id' })
-  UserRole.belongsTo(User, { foreignKey: 'user_id' })
-  Role.hasMany(UserRole, { foreignKey: 'role_id' })
-  UserRole.belongsTo(Role, { foreignKey: 'role_id' })
+  // User roles M:N 
+  Role.hasOne(User, { foreignKey: 'role_id' })
+  User.belongsTo(Role, { foreignKey: 'role_id' })
   // User sessions 1:N
   User.hasMany(UserSession, { foreignKey: 'user_id' })
   UserSession.belongsTo(User, { foreignKey: 'user_id' })
@@ -92,18 +89,9 @@ async function initdb() {
         address: faker.location.streetAddress(),
         phone: faker.phone.number(),
         username: idx === 0 ? 'danilo' : faker.internet.userName(),
-        password: idx === 0 ? 'danilo' : faker.internet.password()
+        password: idx === 0 ? 'danilo' : faker.internet.password(),
+        role_id: idx % 2 == 0 ? adminRole.id : userRole.id
       })
-      // Asignacion de roles "aleatoria"
-      if (newUser.id % 2 == 0) {
-        adminRole && await UserRole.create({
-          role_id: adminRole.id, user_id: newUser.id
-        })
-      } else {
-        userRole && await UserRole.create({
-          role_id: userRole.id, user_id: newUser.id
-        })
-      }
     } catch (err) {
       console.error(err)
     }

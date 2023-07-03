@@ -1,5 +1,7 @@
 import { UserSession } from "../Models/userSession.js"
 import { User } from "../Models/user.js"
+import get from 'lodash.get'
+
 
 /**
  * Función que realiza login a un usuario.
@@ -21,7 +23,25 @@ export const performLogin = async (req, res) => {
         const newSession = await UserSession.create({
             user_id: user.id, status: 'ACTIVE'
         })
-        res.status(200).json({ data: { sessionId: newSession.id } })
+        res.status(200).json({ data: { sessionId: `${newSession.id}`, roleId: `${user.role_id}` } })
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({ message: `${err}` })
+    }
+}
+
+export const performLogout = async (req, res) => {
+    try {
+        // Recuperar session ID
+        const sessionId = get(req, 'headers["fruver-session-id"]', null)
+        const updated = await UserSession.update(
+            { status: 'INACTIVE' },
+            { where: { id: sessionId } })
+        if (!updated) {
+            // Sesión no actualizada
+            throw new Error('Couldnt end session')
+        }
+        res.status(204).json({ message: 'bye' })
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: `${err}` })

@@ -1,15 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserSession } from 'src/models/user-session.model';
+import { Credentials, UserSession } from 'src/models/user-session.model';
+import { BACKEND_HOST } from 'src/utils/constants';
+import { getAuthHeaders } from 'src/utils/utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  BACKEND_HOST = 'http://localhost:3000'
+
   constructor(private http: HttpClient) { }
 
-  performLogin(credentials: any) {
-    return this.http.post<UserSession>(`${this.BACKEND_HOST}/login`, credentials)
+  performLogin(credentials: Credentials) {
+    return this.http.post<{ data: UserSession }>(`${BACKEND_HOST}/login`, credentials)
+  }
+
+  performLogout() {
+    return this.http.get(`${BACKEND_HOST}/logout`, {
+      headers: getAuthHeaders()
+    })
   }
 }
