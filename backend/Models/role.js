@@ -12,6 +12,6 @@ export const Role = sequelize.define('role', {
         type: DataTypes.STRING
     },
     policy: {
-        type: DataTypes.JSONB
+        type: DataTypes.JSON
     }
 })

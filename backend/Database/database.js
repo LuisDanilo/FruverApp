@@ -5,6 +5,6 @@ export const sequelize = new Sequelize({
     database: 'fruverdb',
     password: 'Admin123',
     host: 'localhost',
-    port: 5432,
-    dialect: 'postgres'
+    port: 3306,
+    dialect: 'mysql'
 })

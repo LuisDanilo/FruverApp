@@ -6,17 +6,17 @@
   "license": "MIT",
   "author": "Luis Danilo Juajinoy Galvez",
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "@faker-js/faker": "^8.0.2"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "lodash.get": "4.4.2",
     "lodash.isnumber": "^3.0.3",
     "lodash.set": "^4.3.2",
     "lodash.tonumber": "^4.0.3",
-    "pg": "^8.11.1",
+    "mysql2": "^3.4.3",
     "sequelize": "^6.32.1"
   },
   "type": "module",
