@@ -1,27 +1,38 @@
 import { Product } from "../Models/product.js"
-import { Catalog } from "../Models/catalog.js"
-import isNumber from "lodash.isnumber"
+import { ProductCatalog } from "../Models/productCatalog.js"
+import toNumber from "lodash.tonumber"
+
 import { Op } from "sequelize"
 
+/**
+ * Función que recupera un listado de productos.
+ * Permite consultar productos usando filtros de precio y catálogo.
+ * Retorna un listado de productos con los filtros indicados.
+ */
 export const getProducts = async (req, res) => {
     try {
-        const options = {}
+        // Recuperación de los filtros
         const { catalog, min, max } = req.query
-        if(catalog) {
-            options.include = [
-                { model: Catalog, where: { id: catalog }}
-            ]
+        const minPrice = toNumber(min)
+        const maxPrice = toNumber(max)
+        const catalogId = toNumber(catalog)
+        // Opciones de consulta / filtros
+        const options = {
+            ...(catalogId > 0 ? { include: [{ model: ProductCatalog, where: { catalog_id: catalogId } }] } : {}), // Existe parámetro catalog? Filtre productos por catálogo
+            where: {
+                [Op.and]: [
+                    (minPrice ? { price: { [Op.gte]: minPrice } } : {}), // Existe parámetro min? Filtre productos por limite inferior
+                    (maxPrice ? { price: { [Op.lte]: maxPrice } } : {}), // Existe parámetro max? Filtre productos por limite superior
+                    { available_units: { [Op.gt]: 68 } } // Filtre productos con unidades disponibles
+                ]
+            }
         }
-        if(isNumber(min) && min >=0) {
-            options.where.price[Op.gte] = min
-        }
-        if(isNumber(max)) {
-            options.where.price[Op.lte] = max
-        }
+        // Consultar productos
         const data = await Product.findAll(options)
-        res.status(200).json(data)
-    } catch(err) {
+        // Mapear productos consultados para retornar una respuesta más limpia
+        res.status(200).json(data.map(({ name, price, available_units, detail }) => ({ name, price, available_units, detail })))
+    } catch (err) {
         console.error(err)
-        res.status(400).json({ message: err })
+        res.status(400).json({ message: `${err}` })
     }
 }
