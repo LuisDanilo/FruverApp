@@ -21,5 +21,14 @@ export const Order = sequelize.define('order', {
     },
     status: {
         type: DataTypes.STRING
+    },
+    address: {
+        type: DataTypes.STRING
+    },
+    dni: {
+        type: DataTypes.STRING
+    },
+    phone: {
+        type: DataTypes.STRING
     }
 })

@@ -34,18 +34,21 @@ export class LoginComponent implements OnInit {
       .performLogin(this.credentials)
       .subscribe(data => {
         const sessionId = get(data, 'sessionId', null)
-        const roleId = get(data, 'roleId', null)
+        const roleId = get(data, 'roleId', '')
         const username = get(data, 'username', '')
+        const address = get(data, 'address', '')
+        const dni = get(data, 'dni', '')
+        const phone = get(data, 'phone', '')
         if (sessionId) {
+          localStorage.setItem('sessionId', sessionId)
+          localStorage.setItem('roleId', roleId)
+          localStorage.setItem('username', username)
+          localStorage.setItem('address', address)
+          localStorage.setItem('dni', dni)
+          localStorage.setItem('phone', phone)
           if (roleId === UserRoles.ADMIN) {
-            localStorage.setItem('sessionId', sessionId)
-            localStorage.setItem('roleId', roleId)
-            localStorage.setItem('username', username)
-            this.router.navigate(['/products'])
+            this.router.navigate(['/admin'])
           } else if (roleId === UserRoles.USER) {
-            localStorage.setItem('sessionId', sessionId)
-            localStorage.setItem('roleId', roleId)
-            localStorage.setItem('username', username)
             this.router.navigate(['/shop'])
           }
         }

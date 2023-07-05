@@ -1,6 +1,7 @@
 import { UserSession } from "../Models/userSession.js"
 import { User } from "../Models/user.js"
 import get from 'lodash.get'
+import { ShoppingCart } from "../Models/shoppingCart.js"
 
 
 /**
@@ -23,7 +24,14 @@ export const performLogin = async (req, res) => {
         const newSession = await UserSession.create({
             user_id: user.id, status: 'ACTIVE'
         })
-        res.status(200).json({ sessionId: `${newSession.id}`, roleId: `${user.role_id}`, username: user.username })
+        res.status(200).json({
+            sessionId: `${newSession.id}`,
+            roleId: `${user.role_id}`,
+            username: user.username,
+            address: user.address,
+            dni: user.dni,
+            phone: user.phone
+        })
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: `${err}` })

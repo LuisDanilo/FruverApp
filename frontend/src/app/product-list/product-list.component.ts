@@ -10,29 +10,27 @@ import { OrderService } from '../order.service';
   styleUrls: ['./product-list.component.sass']
 })
 
-export class ProductListComponent implements OnInit {
-  // Text del boton que lanza el modal
-  @Input() text: string = "Ver productos"
+export class ProductListComponent {
   // ngModel para controlar la visualización el modal
   display = "none"
-  // ID de la orden (si se está visualizando items de una orden)
-  @Input() orderId: string = ''
-  // Productos a listar
-  // Cuando se trata del carrito es de tipo ShoppingCartItem[]
-  // Cuando se trata de una orden es de tipo OrderItem[]
-  items: Observable<OrderItem[] | ShoppingCartItem[]> | undefined
+  address: string = localStorage.getItem('address') || ''
+  phone: string = localStorage.getItem('phone') || ''
+  dni: string = localStorage.getItem('dni') || ''
+
+  @Input() onOrderCreated: (p: string) => void = () => { }
 
   constructor(
-    private shopService: ShopService,
     private orderService: OrderService
   ) { }
 
-  ngOnInit() {
-    this.items = this.orderId ? this.orderService.getOrderItems(this.orderId) : this.shopService.getShoppingCartItems()
+  createOrder() {
+    return this.orderService.createOrder({ address: this.address, phone: this.phone, dni: this.dni }).subscribe(_ => {
+      this.onOrderCreated('shop')
+      this.onCloseHandled()
+    })
   }
 
   openModal() {
-    this.ngOnInit()
     this.display = "block"
   }
 

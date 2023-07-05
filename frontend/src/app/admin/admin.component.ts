@@ -13,7 +13,7 @@ import { OrderService } from '../order.service';
 })
 export class AdminComponent implements OnInit {
   // Panel a mostrar en administración
-  panel: string = 'products'
+  panel: string = 'orders'
   // Listado de productos
   products: Observable<Product[]> | undefined
   // Listado de órdenes

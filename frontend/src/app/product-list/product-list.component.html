@@ -1,22 +1,24 @@
-<button type="button" class="btn btn-primary" (click)="openModal()">{{text}}</button>
+<button type="button" class="btn btn-primary" (click)="openModal()">Realizar pedido</button>
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Productos</h4>
+                <h4 class="modal-title">Realizar pedido</h4>
             </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 mt-4" *ngFor="let i of items | async">
-                            <app-shopping-cart-item-card [isOrder]="!!orderId" [item]="i"></app-shopping-cart-item-card>
-                        </div>
-                    </div>
+            <form (ngSubmit)="createOrder()">
+                <div class="modal-body">
+                    <label class="form-label" for="adddress-input">Dirección de entrega</label>
+                    <input class="form-control" type="text" id="adddress-input" [(ngModel)]="address" name="address">
+                    <label class="form-label" for="phone-input">Teléfono</label>
+                    <input class="form-control" type="text" id="phone-input" [(ngModel)]="phone" name="phone">
+                    <label class="form-label" for="dni-input">Idenitificación</label>
+                    <input class="form-control" type="text" id="dni-input" [(ngModel)]="dni" name="dni">
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="onCloseHandled()">Close</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="onCloseHandled()">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

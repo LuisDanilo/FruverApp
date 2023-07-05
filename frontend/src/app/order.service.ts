@@ -24,4 +24,10 @@ export class OrderService {
       params: params.set('order', orderId)
     })
   }
+
+  createOrder(orderData: any) {
+    return this.http.post(`${BACKEND_HOST}/order`, orderData, {
+      headers: getAuthHeaders()
+    })
+  }
 }

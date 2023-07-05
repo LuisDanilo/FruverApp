@@ -26,15 +26,10 @@ app.set('port', 3000)
 app.use(cors())
 app.use(express.json())
 app.use(userRouter)
-app.use(roleRouter)
-app.use(catalogRouter)
+app.use(shoppingCartRouter)
 app.use(orderRouter)
 app.use(productRouter)
-app.use(productCatalogRouter)
 app.use(userSessionRouter)
-app.use(shoppingCartRouter)
-// app.use(shoppingCartItemRouter)
-// app.use(userRoleRouter)
 
 /**
  * Función para inicializar las relaciones entre entidades
@@ -76,23 +71,19 @@ const initRelations = () => {
  */
 async function initdb() {
   let userRole, adminRole
-  // Creacion de roles
+  // Creacion de roles 
   try {
-    const policy = {
-      GET: {
-        '/products': true
-      }
-    }
     // Creacion de rol administrador
     // El rol administrador sera el que pueda formalizar un pedido
     adminRole = await Role.create({
       name: 'Adminstrator',
-      policy
+      policy: { "GET": { "/logout": true, "/orders": true, "/products": true, "/order/items": true } }
     })
     // Creacion del rol usuario
     // El rol usuario sera el que pueda listar productos, manejar un carrito de compras y realizar pedidos
     userRole = await Role.create({
-      name: 'User', policy
+      name: 'User',
+      policy: { "GET": { "/logout": true, "/products": true, "/cart/items": true }, "POST": { "/cart": true, "/order": true } }
     })
   } catch (err) {
     console.error(err)
@@ -107,9 +98,13 @@ async function initdb() {
         dni: faker.string.numeric(10),
         address: faker.location.streetAddress(),
         phone: faker.phone.number(),
-        username: idx === 0 ? 'danilo' : faker.internet.userName(),
-        password: idx === 0 ? 'danilo' : faker.internet.password(),
+        username: 'demo' + idx,
+        password: 'demo' + idx,
         role_id: idx % 2 == 0 ? adminRole.id : userRole.id
+      })
+      await ShoppingCart.create({
+        user_id: newUser.id,
+        total: 0
       })
     } catch (err) {
       console.error(err)
@@ -519,7 +514,7 @@ async function main() {
     await sequelize.authenticate()
     await initRelations()
     await sequelize.sync()
-    // await initdb()
+    await initdb()
     app.listen(app.get('port'), () => {
       console.log('Server ready at port 3000 🚀')
     })

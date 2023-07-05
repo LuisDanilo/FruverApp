@@ -13,8 +13,6 @@ export class AuthGuard implements CanActivate {
     canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const roleId = localStorage.getItem('roleId')
         const isRouteAuthorized = get(ROLE_ROUTES_POLICY, `[${roleId}].${state.url}`, false)
-        console.log("Guard for path", state.url)
-        console.log(isRouteAuthorized)
         if (isRouteAuthorized) {
             return true
         } else {

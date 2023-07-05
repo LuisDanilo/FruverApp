@@ -10,18 +10,19 @@ import { literal } from 'sequelize'
 export const addShoppingCartItem = async (req, res) => {
     try {
         const product = await Product.findByPk(req.body.productId)
+        const shoppingCartId = req.user.dataValues.shopping_cart.dataValues.id
         if (!product || product.dataValues.available_units < req.body.desiredUnits) {
             throw new Error("Couldnt add product to shopping cart")
         }
         await ShoppingCartItem.create({
-            shopping_cart_id: req.user.dataValues.shopping_cart.dataValues.id,
+            shopping_cart_id: shoppingCartId,
             product_id: req.body.productId,
             units: req.body.desiredUnits
         }).catch(err => {
             if (err.name === "SequelizeUniqueConstraintError") {
                 return ShoppingCartItem.update(
                     { units: literal(`units + ${req.body.desiredUnits}`) },
-                    { where: { shopping_cart_id: req.user.dataValues.shopping_cart.dataValues.id, product_id: req.body.productId } }
+                    { where: { shopping_cart_id: shoppingCartId, product_id: req.body.productId } }
                 )
             }
             return Promise.reject(err)
@@ -30,7 +31,11 @@ export const addShoppingCartItem = async (req, res) => {
             { available_units: literal(`available_units - ${req.body.desiredUnits}`) },
             { where: { id: req.body.productId } }
         )
-        res.status(200).json(product)
+        await ShoppingCart.update(
+            { total: literal(`total + (${product.dataValues.price} * ${req.body.desiredUnits})`) },
+            { where: { id: shoppingCartId } }
+        )
+        res.status(204).send()
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: `${err}` })
