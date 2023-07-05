@@ -2,6 +2,10 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../Database/database.js'
 import { Role } from './role.js'
 
+/**
+ * Entidad User
+ * Almancena la información de los usuarios de la aplicación.
+ */
 export const User = sequelize.define('user', {
     id: {
         type: DataTypes.INTEGER,

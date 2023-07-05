@@ -11,7 +11,7 @@ import { UserRoles } from 'src/utils/enums';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
-
+  // Credenciales usadas para login
   credentials: Credentials = new Credentials("", "")
 
   constructor(
@@ -23,12 +23,16 @@ export class LoginComponent implements OnInit {
     const roleId = localStorage.getItem('roleId') || 0
     if (roleId === UserRoles.ADMIN) {
       // alert("You a re already signed in, redirecting")
-      this.router.navigate(['/products'])
+      this.router.navigate(['/admin'])
     } else if (roleId === UserRoles.USER) {
       this.router.navigate(['/shop'])
     }
   }
 
+  /**
+   * Método que permite hacer login
+   * Si es exitoso guarda la info en local storage del navegador
+   */
   login() {
     this.loginService
       .performLogin(this.credentials)

@@ -1,6 +1,10 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../Database/database.js'
 
+/**
+ * Entidad Product
+ * Almacena los productos disponibles en la tienda.
+ */
 export const Product = sequelize.define('product', {
     id: {
         type: DataTypes.INTEGER,

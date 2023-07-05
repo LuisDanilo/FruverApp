@@ -5,8 +5,7 @@ import get from 'lodash.get'
 import { ShoppingCart } from "../Models/shoppingCart.js"
 
 /**
- * Función que valida si un usuario tiene permiso
- * para realizar la petición a un path determinado.
+ * Función que valida si un usuario esta autorizado para realizar la petición a un path determinado.
  * La validación se realiza segun el rol asociado a dicho usuario.
  */
 const checkGrant = (user, method, path) => {
@@ -16,7 +15,7 @@ const checkGrant = (user, method, path) => {
 
 /**
  * Funcion middleware que autoriza o no a un usuario
- * Esta función se ejecuta previo a la ejecución de un path
+ * Esta función se ejecuta previo a la ejecución de una petición
  */
 export const authUser = async (req, res, next) => {
     // Obtener el sessionId de las cabeceras

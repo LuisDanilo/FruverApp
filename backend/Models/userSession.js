@@ -2,6 +2,10 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../Database/database.js'
 import { User } from './user.js'
 
+/**
+ * Entidad UserSession
+ * Almancena las sesiones de los usuarios.
+ */
 export const UserSession = sequelize.define('user_session', {
     id: {
         type: DataTypes.INTEGER,
@@ -13,7 +17,7 @@ export const UserSession = sequelize.define('user_session', {
         type: DataTypes.INTEGER,
         references: {
             model: User,
-            key: 'id' 
+            key: 'id'
         }
     },
     status: {

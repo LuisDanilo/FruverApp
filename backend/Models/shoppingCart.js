@@ -2,6 +2,10 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../Database/database.js'
 import { User } from './user.js'
 
+/**
+ * Entidad ShoppingCart
+ * Almacena los carritos de compra de los usuarios.
+ */
 export const ShoppingCart = sequelize.define('shopping_cart', {
     id: {
         type: DataTypes.INTEGER,

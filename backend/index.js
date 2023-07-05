@@ -19,10 +19,13 @@ import { ShoppingCartItem } from './Models/shoppingCartItem.js'
 import { Notification } from './Models/notification.js'
 import { notificationRouter } from './Routes/notificationRoutes.js'
 
+// App
 const app = express()
+// Configuración inicial
 app.set('port', 3000)
 app.use(cors())
 app.use(express.json())
+// Rutas
 app.use(userSessionRouter)
 app.use(shoppingCartRouter)
 app.use(notificationRouter)

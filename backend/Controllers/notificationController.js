@@ -1,5 +1,9 @@
 import { Notification } from "../Models/notification.js"
 
+/**
+ * Función para obtener las notificaiones de un usuario.
+ * Retorna un listado de notificaciones
+ */
 export const getNotifications = async (req, res) => {
     try {
         const notifications = await Notification.findAll({
@@ -12,6 +16,9 @@ export const getNotifications = async (req, res) => {
     }
 }
 
+/**
+ * Función que borra una notificación.
+ */
 export const deleteNotification = async (req, res) => {
     try {
         await Notification.destroy({

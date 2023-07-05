@@ -9,17 +9,22 @@ import { literal } from 'sequelize'
  */
 export const addShoppingCartItem = async (req, res) => {
     try {
+        // Recuperar producto a agregar
         const product = await Product.findByPk(req.body.productId)
         const shoppingCartId = req.user.dataValues.shopping_cart.dataValues.id
         if (!product || product.dataValues.available_units < req.body.desiredUnits) {
+            // Error al querer agregar el producto sin unidades disponibles
             throw new Error("Couldnt add product to shopping cart")
         }
+        // Crear el producto en el carrito de compras
         await ShoppingCartItem.create({
             shopping_cart_id: shoppingCartId,
             product_id: req.body.productId,
             units: req.body.desiredUnits
         }).catch(err => {
             if (err.name === "SequelizeUniqueConstraintError") {
+                // Se intenta agregar un producto que ya existe en el carrito
+                // Se procede a actualizar la cantidad de items del producto existente
                 return ShoppingCartItem.update(
                     { units: literal(`units + ${req.body.desiredUnits}`) },
                     { where: { shopping_cart_id: shoppingCartId, product_id: req.body.productId } }
@@ -27,10 +32,12 @@ export const addShoppingCartItem = async (req, res) => {
             }
             return Promise.reject(err)
         })
+        // Actualizar las unidades disponibles del producto
         await Product.update(
             { available_units: literal(`available_units - ${req.body.desiredUnits}`) },
             { where: { id: req.body.productId } }
         )
+        // Actualizar el total del carrito
         await ShoppingCart.update(
             { total: literal(`total + (${product.dataValues.price} * ${req.body.desiredUnits})`) },
             { where: { id: shoppingCartId } }

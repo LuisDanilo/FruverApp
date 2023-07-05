@@ -2,6 +2,10 @@ import { DataTypes } from 'sequelize'
 import { sequelize } from '../Database/database.js'
 import { User } from './user.js'
 
+/**
+ * Entidad Order
+ * Almacena las órdenes generadas por los usuarios.
+ */
 export const Order = sequelize.define('order', {
     id: {
         type: DataTypes.INTEGER,

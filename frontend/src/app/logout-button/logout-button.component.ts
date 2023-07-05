@@ -10,6 +10,7 @@ import { LoginService } from '../login.service';
 export class LogoutButtonComponent implements OnInit {
   // Nombre de usuario a mostrar
   username: string = ""
+
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {

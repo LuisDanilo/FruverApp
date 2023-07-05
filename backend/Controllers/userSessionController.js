@@ -6,7 +6,7 @@ import { ShoppingCart } from "../Models/shoppingCart.js"
 
 /**
  * Función que realiza login a un usuario.
- * Retorna al usuario un sessionId si el login fue exitoso, error en caso contrario.
+ * Retorna al usuario algunos de sus datos y el sessionId si el login fue exitoso, error en caso contrario.
  */
 export const performLogin = async (req, res) => {
     try {
@@ -24,6 +24,7 @@ export const performLogin = async (req, res) => {
         const newSession = await UserSession.create({
             user_id: user.id, status: 'ACTIVE'
         })
+        // Información del usuario como respuesta
         res.status(200).json({
             sessionId: `${newSession.id}`,
             roleId: `${user.role_id}`,
@@ -38,8 +39,13 @@ export const performLogin = async (req, res) => {
     }
 }
 
+
+/**
+ * Función que realiza logout a un usuario.
+ */
 export const performLogout = async (req, res) => {
     try {
+        // Actualizar la sesión del usuario a inactiva (soft delete)
         const updated = await UserSession.update(
             { status: 'INACTIVE' },
             { where: { id: req.sessionId } })

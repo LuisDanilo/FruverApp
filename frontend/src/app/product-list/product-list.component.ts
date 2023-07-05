@@ -13,6 +13,7 @@ import { OrderService } from '../order.service';
 export class ProductListComponent {
   // ngModel para controlar la visualización el modal
   display = "none"
+  // Información adicional para la creación de la orden
   address: string = localStorage.getItem('address') || ''
   phone: string = localStorage.getItem('phone') || ''
   dni: string = localStorage.getItem('dni') || ''
@@ -23,6 +24,9 @@ export class ProductListComponent {
     private orderService: OrderService
   ) { }
 
+  /**
+   * Método que permite crear una orden
+   */
   createOrder() {
     return this.orderService.createOrder({ address: this.address, phone: this.phone, dni: this.dni }).subscribe(_ => {
       this.onOrderCreated('shop')
@@ -30,10 +34,16 @@ export class ProductListComponent {
     })
   }
 
+  /**
+   * Método que permite visualizar el modal
+   */
   openModal() {
     this.display = "block"
   }
 
+  /**
+   * Método que permite ocultar el modal
+   */
   onCloseHandled() {
     this.display = "none"
   }

@@ -13,4 +13,5 @@ orderRouter.get('/order/items', authUser, getOrderItems)
 // Ruta para crear una orden
 orderRouter.post('/order', authUser, createOrder)
 
+// Ruta para actualizar el estado de una orden
 orderRouter.put('/order', authUser, updateOrder)

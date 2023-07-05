@@ -1,7 +1,6 @@
 import { Product } from "../Models/product.js"
 import { ProductCatalog } from "../Models/productCatalog.js"
 import toNumber from "lodash.tonumber"
-
 import { Op } from "sequelize"
 
 /**
@@ -18,16 +17,19 @@ export const getProducts = async (req, res) => {
         const catalogId = toNumber(catalog)
         // Opciones de consulta / filtros
         const options = {
-            ...(catalogId > 0 ? { include: [{ model: ProductCatalog, where: { catalog_id: catalogId } }] } : {}), // Existe parámetro catalog? Filtre productos por catálogo
+            // Existe parámetro catalog? Filtre productos por catálogo
+            ...(catalogId > 0 ? { include: [{ model: ProductCatalog, where: { catalog_id: catalogId } }] } : {}),
             where: {
                 [Op.and]: [
-                    (minPrice ? { price: { [Op.gte]: minPrice } } : {}), // Existe parámetro min? Filtre productos por limite inferior
-                    (maxPrice ? { price: { [Op.lte]: maxPrice } } : {}), // Existe parámetro max? Filtre productos por limite superior
-                    { available_units: { [Op.gt]: 0 } } // Filtre productos con unidades disponibles
+                    // Existe parámetro min? Filtre productos por limite inferior
+                    (minPrice ? { price: { [Op.gte]: minPrice } } : {}),
+                    // Existe parámetro max? Filtre productos por limite superior
+                    (maxPrice ? { price: { [Op.lte]: maxPrice } } : {}),
+                    // Filtre productos con unidades disponibles
+                    { available_units: { [Op.gt]: 0 } }
                 ]
             }
         }
-        console.log(options);
         // Consultar productos
         const data = await Product.findAll(options)
         // Mapear productos consultados para retornar una respuesta más limpia

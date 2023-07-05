@@ -49,20 +49,23 @@ export class ShopComponent implements OnInit {
   }
 
   /**
-   * Permite controlar el tab a mostrar
+   * Método que permite controlar el tab a mostrar
    */
   setPanel(p: string) {
     this.panel = p
   }
 
   /**
-   * Permite saber si el botón de confirmar pedido puede ser mostrado
+   * Método que permite saber si el botón de confirmar pedido puede ser mostrado
    * Esto es cuando hay productos en el carrito
    */
   enableConfirmOrderButton(items: ShoppingCartItem[] | null) {
     return items && items.length > 0
   }
 
+  /**
+   * Método que permite eliminar una notificación
+   */
   discardNotification(notificationId: string) {
     return this.notificationService.discardNotification(notificationId).subscribe(_ => {
       this.ngOnInit()

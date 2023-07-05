@@ -33,10 +33,16 @@ export class AdminComponent implements OnInit {
     this.panel = p
   }
 
+  /**
+   * Método que permite aprobar una orden
+   */
   approveOrder(orderId: string) {
     return this.orderService.approveOrder(orderId).subscribe(_ => this.ngOnInit())
   }
 
+  /**
+   * Método que permite rechazar una orden
+   */
   rejectOrder(orderId: string) {
     return this.orderService.rejectOrder(orderId).subscribe(_ => this.ngOnInit())
   }

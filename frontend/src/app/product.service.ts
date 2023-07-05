@@ -14,7 +14,6 @@ export class ProductService {
 
   /**
    * Método que ejecuta la petición al backend para obtener productos.
-   * Retorna un arreglo de productos
    */
   getProducts(options?: any) {
     const maxPrice = get(options, 'maxPrice', null)

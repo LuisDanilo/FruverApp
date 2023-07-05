@@ -2,6 +2,10 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../Database/database.js";
 import { User } from "./user.js";
 
+/**
+ * Entidad Notification
+ * Almancena las notificaciones de los usuarios.
+ */
 export const Notification = sequelize.define('notification', {
     id: {
         type: DataTypes.INTEGER,

@@ -1,5 +1,8 @@
 import { Sequelize } from 'sequelize'
 
+/**
+ * Instancia de sequelize
+ */
 export const sequelize = new Sequelize({
     username: 'admin',
     database: 'fruverdb',
