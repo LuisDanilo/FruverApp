@@ -1,0 +1,18 @@
+<div class="card" *ngIf="!!product">
+    <img src="https://picsum.photos/200" class="card-img-top" alt="Product Thumbnail">
+    <div class="card-body">
+        <h5 class="card-title"><b>{{product.name}}</b></h5>
+        <h6 class="card-subtext">{{product.detail}}</h6>
+        <p class="card-text"><b>Precio: </b>${{product.price}}</p>
+        <p class="card-text"><b>Disponibles: </b>{{product.available_units}}</p>
+        <form (ngSubmit)="addToShoppingCart()">
+            <div class="d-flex align-items-center">
+                <div class="p-2 w-50">
+                    <input type="number" min="1" [max]="product.available_units" id="to-adquire-input"
+                        class="form-control" [(ngModel)]="desiredUnits" name="desired-units">
+                </div>
+                <button type="submit" class="p-2 w-50 btn btn-primary">+ 🛒</button>
+            </div>
+        </form>
+    </div>
+</div>

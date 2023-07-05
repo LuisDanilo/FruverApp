@@ -19,5 +19,8 @@ export const OrderItem = sequelize.define('order_item', {
             model: Product,
             key: 'id'
         }
+    },
+    adquired_units: {
+        type: DataTypes.INTEGER
     }
 })

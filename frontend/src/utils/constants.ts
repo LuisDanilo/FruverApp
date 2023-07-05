@@ -5,8 +5,7 @@ export const BACKEND_HOST = 'http://localhost:3000'
 export const ROLE_ROUTES_POLICY = {
     [UserRoles.ADMIN]: {
         '/': true,
-        '/products': true,
-        '/orders': true
+        '/admin': true,
     },
     [UserRoles.USER]: {
         '/': true,

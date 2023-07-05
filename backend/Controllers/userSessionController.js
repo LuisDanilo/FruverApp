@@ -32,11 +32,9 @@ export const performLogin = async (req, res) => {
 
 export const performLogout = async (req, res) => {
     try {
-        // Recuperar session ID
-        const sessionId = get(req, 'headers["fruver-session-id"]', null)
         const updated = await UserSession.update(
             { status: 'INACTIVE' },
-            { where: { id: sessionId } })
+            { where: { id: req.sessionId } })
         if (!updated) {
             // Sesión no actualizada
             throw new Error('Couldnt end session')

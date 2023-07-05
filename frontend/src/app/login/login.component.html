@@ -3,20 +3,20 @@
         <div class="col-md-4 offset-md-4">
             <form class="border rounded shadow p-4" (ngSubmit)="login()" #loginForm="ngForm">
                 <div class="d-grid mb-4">
-                    <img src="assets/" alt="Logo">
+                    <img src="assets/logo.jpg" alt="Logo" width="100%">
                 </div>
-                <!-- Email input -->
+                <!-- username input -->
                 <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example1">Usuario</label>
                     <input type="text" id="form2Example1" class="form-control" required
                         [(ngModel)]="credentials.username" name="username" />
-                    <label class="form-label" for="form2Example1">Tu nombre de usuario</label>
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example2">Constraseña</label>
                     <input type="password" id="form2Example2" class="form-control" required
                         [(ngModel)]="credentials.password" name="password" />
-                    <label class="form-label" for="form2Example2">Tu constraseña</label>
                 </div>
 
                 <!-- Submit button -->

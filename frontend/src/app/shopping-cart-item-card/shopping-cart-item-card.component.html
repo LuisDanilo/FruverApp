@@ -1,0 +1,9 @@
+<div class="card" *ngIf="!!item">
+    <img src="https://picsum.photos/200" class="card-img-top" alt="Product Thumbnail">
+    <div class="card-body">
+        <h5 class="card-title"><b>{{item.name}}</b></h5>
+        <h6 class="card-subtext">{{item.detail}}</h6>
+        <p class="card-text"><b>Precio: </b>${{item.price}}</p>
+        <p class="card-text"><b>Adquiridas: </b>{{item.adquired_units}} unds</p>
+    </div>
+</div>

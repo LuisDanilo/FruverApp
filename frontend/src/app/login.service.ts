@@ -11,10 +11,17 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * Método que realiza la petición al backend para ejecutar un login.
+   * Retorna datos de autenticación y autorización si el login fue exitoso. 
+   */
   performLogin(credentials: Credentials) {
     return this.http.post<UserSession>(`${BACKEND_HOST}/login`, credentials)
   }
 
+  /**
+   * Método que realiza la petición al backend para ejecutar un logout.
+   */
   performLogout() {
     return this.http.get(`${BACKEND_HOST}/logout`, {
       headers: getAuthHeaders()

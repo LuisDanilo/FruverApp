@@ -7,6 +7,7 @@
             <app-logout-button></app-logout-button>
         </div>
     </div>
+    <!-- TABS -->
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <button class="btn btn-link nav-link" [class.active]="panel == 'products'" data-toggle="tab"
@@ -17,33 +18,33 @@
                 (click)="setPanel('orders')">Órdenes</a>
         </li>
     </ul>
-
+    <!-- PRODUCTS / ORDERS PANEL -->
     <div class="tab-content">
         <div id="category1" class="tab-pane fade" [class.show]="panel == 'orders'" [class.active]="panel == 'orders'"
             *ngIf="panel === 'orders'">
-            <!-- <h4>Productos</h4> -->
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Detail</th>
-                        <th>Price</th>
-                        <th>Available Units</th>
+                        <th>Orden #</th>
+                        <th>Usuario</th>
+                        <th>Dirección de entrega</th>
+                        <th>Total</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Product 1</td>
-                        <td>Product 1 Detail</td>
-                        <td>$10</td>
-                        <td>100</td>
+                    <tr *ngFor="let order of orders | async">
+                        <td>{{order.id}}</td>
+                        <td>{{order.user}}</td>
+                        <td>{{order.delivery_address}}</td>
+                        <td>$ {{order.total}}</td>
                         <td>
-                            <button class="btn btn-primary">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                            <button class="btn btn-primary m-1"
+                                [disabled]="order.no_available_products">Aprobar</button>
+                            <app-product-list [orderId]="order.id"></app-product-list>
+                            <button class="btn btn-danger m-1">Rechazar</button>
                         </td>
                     </tr>
-                    <!-- Add more rows for Category 1 products as needed -->
                 </tbody>
             </table>
         </div>

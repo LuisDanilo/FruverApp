@@ -1,2 +1,44 @@
-<p>shop works!</p>
-<app-logout-button></app-logout-button>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center w-100">
+        <div>
+            <h1>La huerta</h1>
+            <h3>Ofrecemos variedad de productos</h3>
+        </div>
+        <app-logout-button></app-logout-button>
+    </div>
+    <div class="d-flex align-items-center">
+        <form class="d-flex w-75 align-items-center" (ngSubmit)="ngOnInit()">
+            <div>
+                <label class=" form-label" for="category-input">Catálogo</label>
+                <select [(ngModel)]="catalog" id="category-input" name="category">
+                    <option [value]="0">Todos</option>
+                    <option [value]="1">Frutas</option>
+                    <option [value]="2">Verduras</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label" for="min-input">Precio minimo</label>
+                <input id="min-input" type="number" min="0" step="150" [(ngModel)]="minPrice" name="minPrice">
+            </div>
+            <div>
+                <label for="max-input">Precio maximo</label>
+                <input id="max-input" type="number" [min]="minPrice+1" step="150" [(ngModel)]="maxPrice"
+                    name="maxPrice">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+        <div class="w-25 d-flex justify-content-end">
+            <app-product-list text="🛒"></app-product-list>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 mt-4" *ngFor="let p of products | async">
+            <!-- Tenemos que enlazar el contexto de la función al componente padre -->
+            <!-- Ya que en dicho padre (this) es donde está definido el serivicio que hace la petición -->
+            <app-product-card [product]="p" [onProductAdded]="ngOnInit.bind(this)"></app-product-card>
+        </div>
+    </div>
+</div>

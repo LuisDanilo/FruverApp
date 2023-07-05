@@ -2,6 +2,7 @@ import { UserSession } from "../Models/userSession.js"
 import { User } from "../Models/user.js"
 import { Role } from "../Models/role.js"
 import get from 'lodash.get'
+import { ShoppingCart } from "../Models/shoppingCart.js"
 
 /**
  * Función que valida si un usuario tiene permiso
@@ -25,7 +26,8 @@ export const authUser = async (req, res, next) => {
     const user = await User.findOne({
         include: [
             { model: UserSession, where: { status: 'ACTIVE', id: sessionId } },
-            { model: Role }
+            { model: Role },
+            { model: ShoppingCart }
         ]
     })
     if (!sessionId || !checkGrant(user, req.method, req.path)) {
@@ -33,5 +35,6 @@ export const authUser = async (req, res, next) => {
         return res.status(401).json({ message: 'Unauthorized' })
     }
     req.sessionId = sessionId
+    req.user = user
     next()
 }
