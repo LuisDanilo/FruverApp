@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getOrders, getOrderItems, createOrder } from '../Controllers/orderController.js'
+import { getOrders, getOrderItems, createOrder, updateOrder } from '../Controllers/orderController.js'
 import { authUser } from '../Utils/authUser.js'
 
 export const orderRouter = Router()
@@ -12,3 +12,5 @@ orderRouter.get('/order/items', authUser, getOrderItems)
 
 // Ruta para crear una orden
 orderRouter.post('/order', authUser, createOrder)
+
+orderRouter.put('/order', authUser, updateOrder)

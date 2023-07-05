@@ -22,6 +22,7 @@ export class Order {
     constructor(
         public id: string,
         public user: string,
+        public status: string,
         public delivery_address: string,
         public total: number,
         public no_available_products: boolean

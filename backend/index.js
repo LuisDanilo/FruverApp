@@ -1,12 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import { sequelize } from './Database/database.js'
-import { userRouter } from './Routes/userRoutes.js'
-import { catalogRouter } from './Routes/catalogRoutes.js'
 import { orderRouter } from './Routes/orderRoutes.js'
 import { productRouter } from './Routes/productRoutes.js'
-import { productCatalogRouter } from './Routes/productCatalogRoutes.js'
-import { roleRouter } from './Routes/roleRoutes.js'
 import { userSessionRouter } from './Routes/userSessionRoutes.js'
 import { User } from './Models/user.js'
 import { Role } from './Models/role.js'
@@ -20,16 +16,18 @@ import { Order } from './Models/order.js'
 import { shoppingCartRouter } from './Routes/shoppingCartRoutes.js'
 import { ShoppingCart } from './Models/shoppingCart.js'
 import { ShoppingCartItem } from './Models/shoppingCartItem.js'
+import { Notification } from './Models/notification.js'
+import { notificationRouter } from './Routes/notificationRoutes.js'
 
 const app = express()
 app.set('port', 3000)
 app.use(cors())
 app.use(express.json())
-app.use(userRouter)
+app.use(userSessionRouter)
 app.use(shoppingCartRouter)
+app.use(notificationRouter)
 app.use(orderRouter)
 app.use(productRouter)
-app.use(userSessionRouter)
 
 /**
  * Función para inicializar las relaciones entre entidades
@@ -63,6 +61,9 @@ const initRelations = () => {
   ShoppingCartItem.belongsTo(ShoppingCart, { foreignKey: 'shopping_cart_id' })
   Product.hasMany(ShoppingCartItem, { foreignKey: 'product_id' })
   ShoppingCartItem.belongsTo(Product, { foreignKey: 'product_id' })
+  // User notifications 1:N
+  User.hasMany(Notification, { foreignKey: 'user_id' })
+  Notification.belongsTo(User, { foreignKey: 'user_id' })
 }
 
 
@@ -77,13 +78,13 @@ async function initdb() {
     // El rol administrador sera el que pueda formalizar un pedido
     adminRole = await Role.create({
       name: 'Adminstrator',
-      policy: { "GET": { "/logout": true, "/orders": true, "/products": true, "/order/items": true } }
+      policy: { "GET": { "/logout": true, "/orders": true, "/products": true, "/order/items": true }, "PUT": { "/order": true } }
     })
     // Creacion del rol usuario
     // El rol usuario sera el que pueda listar productos, manejar un carrito de compras y realizar pedidos
     userRole = await Role.create({
       name: 'User',
-      policy: { "GET": { "/logout": true, "/products": true, "/cart/items": true }, "POST": { "/cart": true, "/order": true } }
+      policy: { "GET": { "/logout": true, "/products": true, "/cart/items": true, "/notifications": true }, "POST": { "/cart": true, "/order": true }, "DELETE": { "/notification": true } }
     })
   } catch (err) {
     console.error(err)
@@ -507,14 +508,14 @@ async function initdb() {
  * Función principal que inicia el servidor
  * Conexión a DB
  * Inicialización de DB
- * Ejecución de la aplicación express
+ * Ejecución de la aplicación express 
  */
 async function main() {
   try {
     await sequelize.authenticate()
     await initRelations()
-    await sequelize.sync()
-    await initdb()
+    // await sequelize.sync()
+    // await initdb()
     app.listen(app.get('port'), () => {
       console.log('Server ready at port 3000 🚀')
     })

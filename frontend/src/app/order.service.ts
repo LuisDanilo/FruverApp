@@ -30,4 +30,18 @@ export class OrderService {
       headers: getAuthHeaders()
     })
   }
+
+  approveOrder(orderId: string) {
+    return this.http.put(`${BACKEND_HOST}/order`,
+      { status: 'APPROVED', orderId },
+      { headers: getAuthHeaders() }
+    )
+  }
+
+  rejectOrder(orderId: string) {
+    return this.http.put(`${BACKEND_HOST}/order`,
+      { status: 'REJECTED', orderId },
+      { headers: getAuthHeaders() }
+    )
+  }
 }

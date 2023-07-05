@@ -6,4 +6,6 @@ export const userSessionRouter = Router()
 
 // Ruta para hacer login
 userSessionRouter.post('/login', performLogin)
+
+// Ruta para hacer logout
 userSessionRouter.get('/logout', authUser, performLogout)

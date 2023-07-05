@@ -32,4 +32,12 @@ export class AdminComponent implements OnInit {
   setPanel(p: string) {
     this.panel = p
   }
+
+  approveOrder(orderId: string) {
+    return this.orderService.approveOrder(orderId).subscribe(_ => this.ngOnInit())
+  }
+
+  rejectOrder(orderId: string) {
+    return this.orderService.rejectOrder(orderId).subscribe(_ => this.ngOnInit())
+  }
 }

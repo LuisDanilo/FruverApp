@@ -5,6 +5,7 @@ import { ShoppingCartItem } from "../Models/shoppingCartItem.js"
 import { User } from "../Models/user.js"
 import { ShoppingCart } from "../Models/shoppingCart.js"
 import { literal } from "sequelize"
+import { Notification } from "../Models/notification.js"
 
 /**
  * Función que obtiene todas las órdenes.
@@ -21,6 +22,7 @@ export const getOrders = async (req, res) => {
         res.status(200).json(orders.map(o => ({
             id: o.id,
             total: o.total,
+            status: o.status,
             user: o.user.name + ' ' + o.user.lastname,
             delivery_address: o.user.address,
             no_available_products: o.order_items.some(oi => oi.product.available_units <= 0),
@@ -77,7 +79,7 @@ export const createOrder = async (req, res) => {
         const order = await Order.create({
             user_id: req.user.id,
             total: shoppingCart.dataValues.total,
-            status: 'IN_PROGRES',
+            status: 'IN_PROGRESS',
             address, dni, phone
         })
         shoppingCart.dataValues.shopping_cart_items.forEach(async ci => {
@@ -86,10 +88,6 @@ export const createOrder = async (req, res) => {
                 product_id: ci.dataValues.product_id,
                 adquired_units: ci.dataValues.units
             })
-            await Product.update(
-                { available_units: literal(`available_units - ${ci.dataValues.units}`) },
-                { where: { id: ci.dataValues.product_id } }
-            )
         })
         await ShoppingCartItem.destroy({
             where: { shopping_cart_id: shoppingCartId },
@@ -98,7 +96,48 @@ export const createOrder = async (req, res) => {
             { total: 0 },
             { where: { id: shoppingCartId } }
         )
+        await Notification.create({
+            user_id: req.user.id,
+            text: `Tu orden #${order.id} fue creada existósamente`
+        })
         res.status(204).send()
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({ message: `${err}` })
+    }
+}
+
+export const updateOrder = async (req, res) => {
+    try {
+        let friendlyOrderStatus
+        if (req.body.status === 'APPROVED') {
+            friendlyOrderStatus = 'APROBADA'
+        } else if (req.body.status === 'REJECTED') {
+            friendlyOrderStatus = 'RECHAZADA'
+        } else {
+            friendlyOrderStatus = 'PENDIENTE'
+        }
+        const order = await Order.findByPk(req.body.orderId)
+        await Order.update(
+            { status: req.body.status },
+            { where: { id: req.body.orderId } }
+        )
+        if (req.body.status === 'REJECTED') {
+            const orderItems = await OrderItem.findAll({
+                where: { order_id: req.body.orderId }
+            })
+            orderItems.forEach(async oi => {
+                await Product.update(
+                    { available_units: literal(`available_units + ${oi.dataValues.adquired_units}`) },
+                    { where: { id: oi.dataValues.product_id } }
+                )
+            })
+        }
+        await Notification.create({
+            user_id: order.user_id,
+            text: `Tu orden #${req.body.orderId} fue actualizada a ${friendlyOrderStatus}`
+        })
+        res.status(200).send()
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: `${err}` })
