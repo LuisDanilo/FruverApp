@@ -23,5 +23,8 @@ export const Product = sequelize.define('product', {
     },
     available_units: {
         type: DataTypes.INTEGER
+    },
+    image: {
+        type: DataTypes.STRING
     }
 })

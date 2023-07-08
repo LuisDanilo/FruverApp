@@ -28,6 +28,7 @@
             </ul>
             <!-- SHOP / SHOPPING CART PANEL -->
             <div class="tab-content">
+                <!-- CART PANEL -->
                 <div id="category1" class="tab-pane fade" [class.show]="panel == 'cart'"
                     [class.active]="panel == 'cart'" *ngIf="panel === 'cart'">
                     <div class="container">
@@ -44,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- SHOP PANEL -->
                 <div id="category2" class="tab-pane fade" [class.show]="panel == 'shop'"
                     [class.active]="panel == 'shop'" *ngIf="panel === 'shop'">
                     <div class="container">
@@ -81,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- NOTIFICATIONS PANEL -->
                 <div id="category3" class="tab-pane fade" [class.show]="panel == 'notifications'"
                     [class.active]="panel == 'notifications'" *ngIf="panel === 'notifications'">
                     <div class="container">

@@ -9,7 +9,7 @@ import { LoginService } from './login.service';
 import { ShopComponent } from './shop/shop.component';
 import { AdminComponent } from './admin/admin.component';
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
-import { ProductListComponent } from './product-list/product-list.component';
+import { OrderConfirmationModalComponent } from './order-confirmation-modal/order-confirmation-modal.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ShoppingCartItemCardComponent } from './shopping-cart-item-card/shopping-cart-item-card.component';
 
@@ -20,7 +20,7 @@ import { ShoppingCartItemCardComponent } from './shopping-cart-item-card/shoppin
     ShopComponent,
     AdminComponent,
     LogoutButtonComponent,
-    ProductListComponent,
+    OrderConfirmationModalComponent,
     ProductCardComponent,
     ShoppingCartItemCardComponent
   ],

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ShopService } from '../shop.service';
 import { Product } from 'src/models/product.model';
 
@@ -7,7 +7,7 @@ import { Product } from 'src/models/product.model';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.sass']
 })
-// export class ProductCardComponent implements OnInit {
+
 export class ProductCardComponent {
   @Input() product: Product | null = null
   @Input() onProductAdded: null | (() => void) = null

@@ -8,5 +8,6 @@ export class Product {
         public detail: string,
         public price: number,
         public available_units: number,
+        public image: string
     ) { }
 }

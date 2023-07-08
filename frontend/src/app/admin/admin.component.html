@@ -20,6 +20,7 @@
     </ul>
     <!-- PRODUCTS / ORDERS PANEL -->
     <div class="tab-content">
+        <!-- ORDERS PANEL -->
         <div id="category1" class="tab-pane fade" [class.show]="panel == 'orders'" [class.active]="panel == 'orders'"
             *ngIf="panel === 'orders'">
             <table class="table">
@@ -52,6 +53,7 @@
             </table>
         </div>
 
+        <!-- PRODUCTS PANEL -->
         <div id="category2" class="tab-pane fade" [class.show]="panel == 'products'"
             [class.active]="panel == 'products'" *ngIf="panel === 'products'">
             <table class="table">

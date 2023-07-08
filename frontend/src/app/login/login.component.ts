@@ -20,11 +20,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Recuperar rol del usuario autenticado (si existe usuario autenticado)
     const roleId = localStorage.getItem('roleId') || 0
     if (roleId === UserRoles.ADMIN) {
       // alert("You a re already signed in, redirecting")
       this.router.navigate(['/admin'])
     } else if (roleId === UserRoles.USER) {
+      // alert("You a re already signed in, redirecting")
       this.router.navigate(['/shop'])
     }
   }
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
     this.loginService
       .performLogin(this.credentials)
       .subscribe(data => {
+        // Recuperar info del usuario autenticado
         const sessionId = get(data, 'sessionId', null)
         const roleId = get(data, 'roleId', '')
         const username = get(data, 'username', '')
@@ -44,12 +47,14 @@ export class LoginComponent implements OnInit {
         const dni = get(data, 'dni', '')
         const phone = get(data, 'phone', '')
         if (sessionId) {
+          // Guardar info en el navegador
           localStorage.setItem('sessionId', sessionId)
           localStorage.setItem('roleId', roleId)
           localStorage.setItem('username', username)
           localStorage.setItem('address', address)
           localStorage.setItem('dni', dni)
           localStorage.setItem('phone', phone)
+          // Redireccionar
           if (roleId === UserRoles.ADMIN) {
             this.router.navigate(['/admin'])
           } else if (roleId === UserRoles.USER) {

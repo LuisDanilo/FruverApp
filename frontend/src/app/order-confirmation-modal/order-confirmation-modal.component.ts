@@ -1,16 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { OrderItem, ShoppingCartItem } from 'src/models/order.model';
-import { ShopService } from '../shop.service';
+import { Component, Input } from '@angular/core';
 import { OrderService } from '../order.service';
 
 @Component({
   selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.sass']
+  templateUrl: './order-confirmation-modal.component.html',
+  styleUrls: ['./order-confirmation-modal.component.sass']
 })
 
-export class ProductListComponent {
+export class OrderConfirmationModalComponent {
   // ngModel para controlar la visualización el modal
   display = "none"
   // Información adicional para la creación de la orden

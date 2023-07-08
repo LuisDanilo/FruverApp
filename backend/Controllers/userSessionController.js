@@ -1,7 +1,5 @@
 import { UserSession } from "../Models/userSession.js"
 import { User } from "../Models/user.js"
-import get from 'lodash.get'
-import { ShoppingCart } from "../Models/shoppingCart.js"
 
 
 /**

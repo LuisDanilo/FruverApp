@@ -33,7 +33,7 @@ export const getProducts = async (req, res) => {
         // Consultar productos
         const data = await Product.findAll(options)
         // Mapear productos consultados para retornar una respuesta más limpia
-        res.status(200).json(data.map(({ id, name, price, available_units, detail }) => ({ id, name, price, available_units, detail })))
+        res.status(200).json(data.map(({ id, name, price, available_units, detail, image }) => ({ id, name, price, available_units, detail, image })))
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: `${err}` })
