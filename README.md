@@ -3,6 +3,25 @@ Esta aplicación está desarrollada por Luis Danilo Juajinoy Gálvez para el mó
 
 ## ¿Cómo ejecutar el proyecto?
 
+### Frontend
+Será necesario tener instalado globalmente (se asume que ya se cuenta con NodeJS instalado) ```@angular/cli```
+
+También es necesario que el **backend** este ejecutándose en ese momento y esté disponible en http://localhost:3000, ya que sin dicho backend la aplicación no tendrá su entera funcionalidad disponible
+
+Una vez cumplido dichos requerimientos puede ejecutar los siguientes comandos en una terminal
+
+```bash
+cd frontend
+# Si desea usar npm
+npm install
+# Si desea usar yarn
+yarn
+# Ejecutar app angular
+ng serve --open
+```
+
+Esto deberá iniciar la aplicación el http://localhost:4200
+
 ### Backend
 Será necesario ejecutar los siguientes pasos para levantar la aplicación backend
 
@@ -35,5 +54,5 @@ npm run dev
 yarn
 yarn dev
 ```
-Una vez ejecutado los comandos deberá ver una pantalla similar a la mostrada a continuación
-![Alt text](image.png)
+
+Esto deberá iniciar el servidor ```express``` en http://localhost:3000
